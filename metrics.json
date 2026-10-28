@@ -1,0 +1,118 @@
+{
+  "evaluation_dataset": "HAM10000 Held-Out Lesion-Level Test Partition",
+  "total_test_samples": 1494,
+  "comparison": [
+    {
+      "model_name": "Custom CNN (Baseline)",
+      "description": "4-layer convolutional architecture trained from scratch on raw pixel inputs with standard CrossEntropyLoss.",
+      "accuracy": 0.718,
+      "macro_precision": 0.582,
+      "macro_recall": 0.531,
+      "macro_f1": 0.548,
+      "parameters": "4.2M",
+      "inference_latency_ms": 14.2,
+      "selected": false
+    },
+    {
+      "model_name": "EfficientNet-B0 (Stage 1 - Feature Extractor)",
+      "description": "Pre-trained ImageNet backbone with frozen convolutional features; only custom 7-class linear head trained.",
+      "accuracy": 0.813,
+      "macro_precision": 0.724,
+      "macro_recall": 0.689,
+      "macro_f1": 0.702,
+      "parameters": "5.3M (Head: 8.9K)",
+      "inference_latency_ms": 28.5,
+      "selected": false
+    },
+    {
+      "model_name": "EfficientNet-B0 (Stage 2 - Fine-Tuned Final)",
+      "description": "Full end-to-end fine-tuning with differential learning rates, class-weighted cross-entropy loss, and extensive dermoscopic augmentations.",
+      "accuracy": 0.899,
+      "macro_precision": 0.822,
+      "macro_recall": 0.810,
+      "macro_f1": 0.815,
+      "parameters": "5.3M",
+      "inference_latency_ms": 29.8,
+      "selected": true
+    }
+  ],
+  "class_labels": ["akiec", "bcc", "bkl", "df", "mel", "nv", "vasc"],
+  "class_display_names": {
+    "akiec": "Actinic Keratoses",
+    "bcc": "Basal Cell Carcinoma",
+    "bkl": "Benign Keratolytic",
+    "df": "Dermatofibroma",
+    "mel": "Melanoma",
+    "nv": "Melanocytic Nevi",
+    "vasc": "Vascular Lesions"
+  },
+  "per_class_metrics": {
+    "akiec": {
+      "precision": 0.745,
+      "recall": 0.714,
+      "f1_score": 0.729,
+      "support": 49
+    },
+    "bcc": {
+      "precision": 0.846,
+      "recall": 0.857,
+      "f1_score": 0.852,
+      "support": 77
+    },
+    "bkl": {
+      "precision": 0.776,
+      "recall": 0.762,
+      "f1_score": 0.769,
+      "support": 164
+    },
+    "df": {
+      "precision": 0.786,
+      "recall": 0.688,
+      "f1_score": 0.733,
+      "support": 16
+    },
+    "mel": {
+      "precision": 0.802,
+      "recall": 0.783,
+      "f1_score": 0.793,
+      "support": 166
+    },
+    "nv": {
+      "precision": 0.948,
+      "recall": 0.958,
+      "f1_score": 0.953,
+      "support": 1001
+    },
+    "vasc": {
+      "precision": 0.850,
+      "recall": 0.810,
+      "f1_score": 0.829,
+      "support": 21
+    }
+  },
+  "macro_average": {
+    "precision": 0.822,
+    "recall": 0.810,
+    "f1_score": 0.815,
+    "support": 1494
+  },
+  "weighted_average": {
+    "precision": 0.899,
+    "recall": 0.899,
+    "f1_score": 0.898,
+    "support": 1494
+  },
+  "confusion_matrix": {
+    "labels": ["akiec", "bcc", "bkl", "df", "mel", "nv", "vasc"],
+    "matrix": [
+      [35, 3, 4, 0, 3, 4, 0],
+      [2, 66, 2, 0, 3, 4, 0],
+      [4, 3, 125, 1, 9, 21, 1],
+      [0, 0, 1, 11, 0, 4, 0],
+      [3, 4, 11, 0, 130, 18, 0],
+      [3, 2, 17, 2, 16, 959, 2],
+      [0, 0, 1, 0, 1, 2, 17]
+    ],
+    "explanation": "Row i indicates the ground truth lesion class; Column j indicates the model predicted class. Values along the principal diagonal represent correct classifications."
+  }
+}

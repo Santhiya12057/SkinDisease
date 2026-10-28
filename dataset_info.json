@@ -1,0 +1,79 @@
+{
+  "dataset_name": "HAM10000",
+  "full_name": "Human Against Machine with 10,000 training images",
+  "total_images": 10015,
+  "modality": "Dermoscopic",
+  "image_dimensions": "600x450",
+  "channels": 3,
+  "num_classes": 7,
+  "classes": {
+    "akiec": {
+      "name": "Actinic Keratoses / Intraepithelial Carcinoma",
+      "count": 327,
+      "percentage": 3.27,
+      "description": "Common pre-cancerous or early non-invasive variants of squamous cell carcinoma on sun-damaged skin.",
+      "clinical_significance": "Pre-malignant / Malignant variant requiring clinical surveillance or ablation."
+    },
+    "bcc": {
+      "name": "Basal Cell Carcinoma",
+      "count": 514,
+      "percentage": 5.13,
+      "description": "The most common form of skin cancer, arising from the basal cells in the deepest layer of the epidermis.",
+      "clinical_significance": "Malignant, locally destructive, low metastatic potential."
+    },
+    "bkl": {
+      "name": "Benign Keratolytic Lesions",
+      "count": 1099,
+      "percentage": 10.97,
+      "description": "Group comprising seborrheic keratoses, solar lentigines, and lichen-planus-like keratoses.",
+      "clinical_significance": "Benign epidermal proliferation, generally harmless."
+    },
+    "df": {
+      "name": "Dermatofibroma",
+      "count": 115,
+      "percentage": 1.15,
+      "description": "Benign fibrous nodule commonly located on the lower extremities, showing a central white patch and delicate pigment network.",
+      "clinical_significance": "Benign cutaneous lesion."
+    },
+    "mel": {
+      "name": "Melanoma",
+      "count": 1133,
+      "percentage": 11.11,
+      "description": "Malignant neoplasm of melanocytes. Highly aggressive if not diagnosed and excised at an early in-situ stage.",
+      "clinical_significance": "High-risk malignant skin cancer requiring urgent histological assessment."
+    },
+    "nv": {
+      "name": "Melanocytic Nevi",
+      "count": 6705,
+      "percentage": 66.95,
+      "description": "Benign proliferations of melanocytes ('moles'). Dominates the HAM10000 collection.",
+      "clinical_significance": "Benign common mole, monitored for dysplastic progression."
+    },
+    "vasc": {
+      "name": "Vascular Lesions",
+      "count": 142,
+      "percentage": 1.42,
+      "description": "Angiomas, pyogenic granulomas, vascular malformations, and cutaneous hemorrhages with characteristic lacunar dermoscopic patterns.",
+      "clinical_significance": "Benign vascular proliferations."
+    }
+  },
+  "splits": {
+    "train": {
+      "images": 7002,
+      "percentage": 69.91,
+      "description": "Training partition optimized with class-weighted cross-entropy loss."
+    },
+    "validation": {
+      "images": 1519,
+      "percentage": 15.17,
+      "description": "Validation partition used for checkpoint early stopping and hyperparameter tuning."
+    },
+    "test": {
+      "images": 1494,
+      "percentage": 14.92,
+      "description": "Held-out test partition used for unbiased benchmark evaluation."
+    }
+  },
+  "split_rationale": "Splits are partitioned strictly at the patient/lesion level (grouping by lesion_id) to eliminate data leakage where multiple images of the same lesion appear across training and test partitions.",
+  "imbalance_strategy": "Because Melanocytic Nevi (nv) comprise ~67% of all samples while Dermatofibroma (df) represents barely 1.15%, standard empirical risk minimization leads to severe majority-class bias. We utilize inverse-frequency class-weighted CrossEntropyLoss: w_c = N / (C * N_c), alongside targeted data augmentations (flips, random crops, color jitter)."
+}
